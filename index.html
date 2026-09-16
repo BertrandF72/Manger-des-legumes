@@ -178,8 +178,8 @@
     background:var(--bg-elevated);
     border:1.5px solid var(--border);
     border-radius:var(--radius);
-    padding:16px 10px 34px;
-    min-height:86px;
+    padding:11px 8px 20px;
+    min-height:auto;
     cursor:pointer;
     transition:border-color .15s ease, transform .1s ease;
     user-select:none;
@@ -189,7 +189,7 @@
     content:"";
     position:absolute;
     top:0; left:0; right:0;
-    height:6px;
+    height:5px;
     background:var(--veg-color, var(--border));
   }
   .veg-card:active{transform:scale(0.97);}
@@ -204,14 +204,14 @@
   }
   .veg-card .check-badge{
     position:absolute;
-    top:9px;
-    right:9px;
-    width:20px;
-    height:20px;
+    top:7px;
+    right:7px;
+    width:18px;
+    height:18px;
     border-radius:50%;
     background:var(--select-red);
     color:#fff;
-    font-size:0.7rem;
+    font-size:0.65rem;
     font-weight:700;
     display:none;
     align-items:center;
@@ -219,16 +219,16 @@
   }
   .veg-card.selected .check-badge{ display:flex; }
   .price-badge{
-    height:20px;
+    height:17px;
     box-sizing:border-box;
     display:inline-flex;
     align-items:center;
-    gap:5px;
+    gap:4px;
     background:#FFFFFF;
     color:#2B2B24;
-    font-size:0.6rem;
+    font-size:0.56rem;
     font-weight:600;
-    padding:0 8px;
+    padding:0 7px;
     border-radius:20px;
     white-space:nowrap;
   }
@@ -236,34 +236,34 @@
     background:#F5C518;
     color:#4A3B00;
     font-weight:700;
-    padding:1px 6px;
+    padding:0px 5px;
     border-radius:10px;
     line-height:1.4;
   }
   .veg-card .name{
     font-family:var(--font-display);
     font-weight:600;
-    font-size:0.98rem;
-    line-height:1.2;
-    margin-top:4px;
+    font-size:0.92rem;
+    line-height:1.15;
+    margin-top:2px;
   }
   .veg-card .badge-stack{
     display:flex;
     flex-direction:column;
     align-items:flex-start;
-    gap:6px;
-    margin-top:6px;
+    gap:4px;
+    margin-top:5px;
   }
   .veg-card .nutri-badge{
-    height:20px;
+    height:17px;
     box-sizing:border-box;
     display:inline-flex;
     align-items:center;
-    font-size:0.6rem;
+    font-size:0.56rem;
     font-weight:600;
     color:#2B2B24;
     background:#FFFFFF;
-    padding:0 7px;
+    padding:0 6px;
     border-radius:20px;
     white-space:nowrap;
   }
@@ -273,17 +273,17 @@
   }
   .veg-card .heart-btn{
     position:absolute;
-    bottom:8px;
-    right:8px;
-    width:28px;
-    height:28px;
+    bottom:4px;
+    right:6px;
+    width:25px;
+    height:25px;
     border-radius:50%;
     border:1.5px solid var(--border);
     background:var(--bg-elevated);
     display:flex;
     align-items:center;
     justify-content:center;
-    font-size:0.95rem;
+    font-size:1.05rem;
     line-height:1;
     padding:0;
   }
@@ -299,7 +299,8 @@
 
   .cta-bar{
     position:fixed;
-    left:0; right:0; bottom:78px;
+    left:0; right:0;
+    bottom:calc(86px + env(safe-area-inset-bottom));
     display:flex;
     justify-content:center;
     pointer-events:none;
@@ -1305,15 +1306,20 @@ function shuffleArray(arr){
   return a;
 }
 let shuffledSeasonIds = shuffleArray(LEGUMES.filter(isInSeason).map(v=>v.id));
+function selectedFirst(list){
+  const sel = list.filter(v=>selected.has(v.id));
+  const rest = list.filter(v=>!selected.has(v.id));
+  return sel.concat(rest);
+}
 function renderLegumes(){
   const container = document.getElementById('veg-container');
   const enSaisonAll = LEGUMES.filter(isInSeason);
-  const enSaison = shuffledSeasonIds
+  const enSaison = selectedFirst(shuffledSeasonIds
     .map(id => enSaisonAll.find(v=>v.id===id))
     .filter(Boolean)
-    .concat(enSaisonAll.filter(v => !shuffledSeasonIds.includes(v.id)));
-  const bientot = LEGUMES.filter(v => isComingSoon(v));
-  const horsSaison = LEGUMES.filter(v => !isInSeason(v) && !isComingSoon(v));
+    .concat(enSaisonAll.filter(v => !shuffledSeasonIds.includes(v.id))));
+  const bientot = selectedFirst(LEGUMES.filter(v => isComingSoon(v)));
+  const horsSaison = selectedFirst(LEGUMES.filter(v => !isInSeason(v) && !isComingSoon(v)));
 
   container.innerHTML =
     (enSaison.length ? sectionHTML("C'est le moment d'en profiter !", enSaison, true, 'season') : '') +
@@ -1330,6 +1336,7 @@ function renderLegumes(){
         return;
       }
       if(selected.has(id)) selected.delete(id); else selected.add(id);
+      selectionSearchClicks = 0;
       renderLegumes();
       updateCtaBar();
     });
@@ -1423,6 +1430,7 @@ document.getElementById('season-backdrop').addEventListener('click', (e)=>{
 });
 document.getElementById('season-force-btn').addEventListener('click', ()=>{
   selected.add(seasonSheetId);
+  selectionSearchClicks = 0;
   closeSeasonSheet();
   renderLegumes();
   updateCtaBar();
@@ -1478,6 +1486,10 @@ document.getElementById('install-cancel-btn').addEventListener('click', closeIns
 let pendingSearchContext = null;
 function markPendingSearch(ctx){
   pendingSearchContext = ctx;
+  selectionSearchClicks++;
+  if(selectionSearchClicks >= 60){
+    clearSelectionAuto();
+  }
 }
 document.addEventListener('visibilitychange', ()=>{
   if(document.visibilityState === 'visible' && pendingSearchContext && !pendingSearchContext.showReturn){
@@ -1722,7 +1734,7 @@ function renderPlats(){
       html += pairs.map(([aime, neutre]) => suggestCardHTML(aime, neutre)).join('');
     }
     html += `<div class="section-label" style="margin-top:26px;">Ou explore librement</div>`;
-    html += `<div class="empty-state" style="padding-top:0;">Sélectionne un ou plusieurs légumes dans l'onglet Légumes pour voir leurs idées de plats et chercher des recettes en ligne.</div>`;
+    html += `<div class="empty-state" style="padding-top:0;">Sélectionne un ou plusieurs légumes dans l'onglet Sélection pour obtenir des idées de plats.</div>`;
     const combo = getCheapCombo();
     if(combo){
       html += `<div class="section-label" style="margin-top:26px;">Le combo pas cher</div>`;
@@ -1994,6 +2006,27 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click', ()=> goTo(btn.dataset.screen));
 });
 document.getElementById('btn-go-plats').addEventListener('click', ()=> goTo('plats'));
+
+/* ============ RÉINITIALISATION AUTOMATIQUE DE LA SÉLECTION ============
+   La sélection de légumes est effacée automatiquement après 5 minutes sans
+   interaction, ou après ~60 recherches lancées depuis Suggestions pour cette
+   même sélection (signe qu'on a fait le tour des possibilités). */
+let lastActivityTime = Date.now();
+let selectionSearchClicks = 0;
+function clearSelectionAuto(){
+  if(selected.size === 0) return;
+  selected.clear();
+  selectionSearchClicks = 0;
+  if(document.getElementById('screen-legumes').classList.contains('active')) renderLegumes();
+  if(document.getElementById('screen-plats').classList.contains('active')) renderPlats();
+  updateCtaBar();
+}
+document.getElementById('app').addEventListener('click', ()=>{ lastActivityTime = Date.now(); }, true);
+setInterval(()=>{
+  if(selected.size>0 && Date.now()-lastActivityTime >= 5*60*1000){
+    clearSelectionAuto();
+  }
+}, 30000);
 
 /* ============ INIT ============ */
 document.getElementById('btn-install').style.display = 'none';
