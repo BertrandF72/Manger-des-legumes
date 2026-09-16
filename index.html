@@ -16,20 +16,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #F5F1E6;
+    --bg: #FDFBF6;
     --bg-elevated: #FFFFFF;
     --text: #2B2B24;
     --text-muted: #6B6656;
     --green: #3F5A3D;
-    --green-soft: #E4EBDF;
+    --green-soft: #EEF3EA;
     --ochre: #C98A2B;
-    --ochre-soft: #F5E3C2;
+    --ochre-soft: #FAEFD9;
     --clay: #A65D4E;
-    --clay-soft: #F0DFDA;
-    --border: #E1DBC9;
-    --season-tint: #EAF3EA;
-    --soon-tint: #FBEFE3;
-    --wait-tint: #EEEAF2;
+    --clay-soft: #F7EAE7;
+    --border: #EAE4D5;
+    --select-red: #E02424;
+    --season-tint: #F0F7F0;
+    --soon-tint: #FCF4EC;
+    --wait-tint: #F5F2F8;
     --shadow: 0 1px 2px rgba(43,43,36,0.06), 0 4px 14px rgba(43,43,36,0.06);
     --radius: 14px;
     --font-display: "Fraunces", Georgia, serif;
@@ -37,38 +38,40 @@
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg: #1C1B16;
-      --bg-elevated: #262420;
-      --text: #EDE9DC;
-      --text-muted: #A7A08C;
-      --green: #8FB98A;
-      --green-soft: #2B3628;
-      --ochre: #E0A94C;
-      --ochre-soft: #3A2F1C;
-      --clay: #D48D7D;
-      --clay-soft: #3A2622;
-      --border: #3A372E;
-      --season-tint: #223026;
-      --soon-tint: #332920;
-      --wait-tint: #262330;
+      --bg: #322F27;
+      --bg-elevated: #3E3B32;
+      --text: #F2EEE3;
+      --text-muted: #C2BBA9;
+      --green: #A2CE9C;
+      --green-soft: #47573F;
+      --ochre: #F0BC66;
+      --ochre-soft: #5A4A31;
+      --clay: #E3A594;
+      --clay-soft: #5A473F;
+      --border: #57534A;
+      --select-red: #FF6B6B;
+      --season-tint: #3D5044;
+      --soon-tint: #5A4B3C;
+      --wait-tint: #423C54;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 14px rgba(0,0,0,0.3);
     }
   }
   :root[data-theme="dark"]{
-    --bg: #1C1B16;
-    --bg-elevated: #262420;
-    --text: #EDE9DC;
-    --text-muted: #A7A08C;
-    --green: #8FB98A;
-    --green-soft: #2B3628;
-    --ochre: #E0A94C;
-    --ochre-soft: #3A2F1C;
-    --clay: #D48D7D;
-    --clay-soft: #3A2622;
-    --border: #3A372E;
-    --season-tint: #223026;
-    --soon-tint: #332920;
-    --wait-tint: #262330;
+    --bg: #322F27;
+    --bg-elevated: #3E3B32;
+    --text: #F2EEE3;
+    --text-muted: #C2BBA9;
+    --green: #A2CE9C;
+    --green-soft: #47573F;
+    --ochre: #F0BC66;
+    --ochre-soft: #5A4A31;
+    --clay: #E3A594;
+    --clay-soft: #5A473F;
+    --border: #57534A;
+    --select-red: #FF6B6B;
+    --season-tint: #3D5044;
+    --soon-tint: #5A4B3C;
+    --wait-tint: #423C54;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 14px rgba(0,0,0,0.3);
   }
 
@@ -191,12 +194,13 @@
   }
   .veg-card:active{transform:scale(0.97);}
   .veg-card.in-season{
-    background: color-mix(in srgb, var(--veg-color) 16%, var(--bg-elevated));
-    border-color: color-mix(in srgb, var(--veg-color) 45%, var(--border));
+    background: color-mix(in srgb, var(--veg-color) 10%, var(--bg-elevated));
+    border-color: color-mix(in srgb, var(--veg-color) 35%, var(--border));
   }
   .veg-card.selected{
-    border-color:var(--green);
-    border-width:2.5px;
+    border-color:var(--select-red);
+    border-width:3px;
+    box-shadow: 0 0 0 4px rgba(224,36,36,0.18);
   }
   .veg-card .check-badge{
     position:absolute;
@@ -205,7 +209,7 @@
     width:20px;
     height:20px;
     border-radius:50%;
-    background:var(--green);
+    background:var(--select-red);
     color:#fff;
     font-size:0.7rem;
     font-weight:700;
@@ -214,6 +218,28 @@
     justify-content:center;
   }
   .veg-card.selected .check-badge{ display:flex; }
+  .price-badge{
+    height:20px;
+    box-sizing:border-box;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    background:#FFFFFF;
+    color:#2B2B24;
+    font-size:0.6rem;
+    font-weight:600;
+    padding:0 8px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .price-badge .euros{
+    background:#F5C518;
+    color:#4A3B00;
+    font-weight:700;
+    padding:1px 6px;
+    border-radius:10px;
+    line-height:1.4;
+  }
   .veg-card .name{
     font-family:var(--font-display);
     font-weight:600;
@@ -221,18 +247,23 @@
     line-height:1.2;
     margin-top:4px;
   }
-  .veg-card .nutri-tags{
+  .veg-card .badge-stack{
     display:flex;
-    flex-wrap:wrap;
-    gap:4px;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:6px;
     margin-top:6px;
   }
   .veg-card .nutri-badge{
+    height:20px;
+    box-sizing:border-box;
+    display:inline-flex;
+    align-items:center;
     font-size:0.6rem;
     font-weight:600;
     color:#2B2B24;
     background:#FFFFFF;
-    padding:2px 7px;
+    padding:0 7px;
     border-radius:20px;
     white-space:nowrap;
   }
@@ -812,6 +843,8 @@
 
       <div class="legend">
         Toutes ces informations restent uniquement sur cet appareil. Rien n'est envoyé ni partagé avec d'autres personnes utilisant l'application.
+        <br><br>
+        Les repères de prix (€ / €€ / €€€) sont une estimation raisonnée basée sur la pleine saison de chaque légume, ajustée selon ta région — ce ne sont pas des données officielles en temps réel du RNM FranceAgriMer.
       </div>
 
       <button class="danger-btn" id="btn-reset-prefs">Réinitialiser mes préférences légumes</button>
@@ -955,209 +988,209 @@
 <script>
 /* ============ DONNÉES ============ */
 const LEGUMES = [
-  {id:"asperge", nom:"Asperge", couleur:"#8FA85E", mois:[4,5,6], saisonLabel:"Avril à juin", nutrition:["Diurétique", "Riche en folates"], plats:[
+  {id:"asperge", nom:"Asperge", couleur:"#8FA85E", mois:[4,5,6], qb:9, saisonLabel:"Avril à juin", prixBase:4, nutrition:["Diurétique", "Riche en folates"], plats:[
     "Salade, vinaigrette citron-huile",
     "Asperges vapeur, sauce hollandaise",
     "Rôties au four, huile d'olive, sel, poivre",
     "Poêlées, ail et persil",
     "Tarte aux asperges"]},
-  {id:"petitpois", nom:"Petit pois", couleur:"#6B9A4A", mois:[5,6,7], saisonLabel:"Mai à juillet", nutrition:["Riche en protéines", "Source de fibres"], plats:[
+  {id:"petitpois", nom:"Petit pois", couleur:"#6B9A4A", mois:[5,6,7], qb:11, saisonLabel:"Mai à juillet", prixBase:3, nutrition:["Riche en protéines", "Source de fibres"], plats:[
     "Salade, menthe, feta, tomates",
     "Vapeur, beurre et menthe",
     "Risotto aux petits pois",
     "Sautés, lardons et oignons",
     "Purée de petits pois"]},
-  {id:"radis", nom:"Radis", couleur:"#D0455A", mois:[3,4,5,6], saisonLabel:"Mars à juin", nutrition:["Peu calorique", "Riche en vitamine C"], plats:[
+  {id:"radis", nom:"Radis", couleur:"#D0455A", mois:[3,4,5,6], qb:7, saisonLabel:"Mars à juin", prixBase:1, nutrition:["Peu calorique", "Riche en vitamine C"], plats:[
     "Tranches, beurre salé et pain",
     "Rôtis au four, miel et moutarde",
     "Sautés, beurre et persil",
     "Tartine, fromage frais, ciboulette"]},
-  {id:"epinard", nom:"Épinard", couleur:"#33622E", mois:[3,4,5], saisonLabel:"Mars à mai", nutrition:["Riche en fer", "Riche en vitamine K"], plats:[
+  {id:"epinard", nom:"Épinard", couleur:"#33622E", mois:[3,4,5], qb:7, saisonLabel:"Mars à mai", prixBase:2, nutrition:["Riche en fer", "Riche en vitamine K"], plats:[
     "Salade, noix, vinaigre balsamique",
     "Vapeur, noix de muscade",
     "Quiche aux épinards",
     "À la crème, ail, crème fraîche",
     "Smoothie vert"]},
-  {id:"artichaut", nom:"Artichaut", couleur:"#7C8A4C", mois:[4,5,6], saisonLabel:"Avril à juin", nutrition:["Bon pour le foie", "Riche en fibres"], plats:[
+  {id:"artichaut", nom:"Artichaut", couleur:"#7C8A4C", mois:[4,5,6], qb:9, saisonLabel:"Avril à juin", prixBase:3, nutrition:["Bon pour le foie", "Riche en fibres"], plats:[
     "Feuilles, sauce vinaigrette",
     "Vapeur, sauce yaourt",
     "Farci, chapelure, ail, persil",
     "Braisé, vin blanc, échalotes",
     "Soupe d'artichauts"]},
-  {id:"tomate", nom:"Tomate", couleur:"#C1392B", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Riche en vitamine C", "Riche en lycopène"], plats:[
+  {id:"tomate", nom:"Tomate", couleur:"#C1392B", mois:[6,7,8,9], qb:13, saisonLabel:"Juin à septembre", prixBase:2, nutrition:["Riche en vitamine C", "Riche en lycopène"], plats:[
     "Salade, mozzarella, basilic",
     "Farcies, viande, riz, herbes",
     "Poêlées, ail, origan",
     "Gazpacho"]},
-  {id:"courgette", nom:"Courgette", couleur:"#4C7A3F", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Peu calorique", "Riche en eau"], plats:[
+  {id:"courgette", nom:"Courgette", couleur:"#4C7A3F", mois:[6,7,8,9], qb:13, saisonLabel:"Juin à septembre", prixBase:2, nutrition:["Peu calorique", "Riche en eau"], plats:[
     "Carpaccio, parmesan, huile d'olive",
     "Vapeur, beurre et citron",
     "Gratin, crème et fromage",
     "Sautées, ail, piment",
     "Beignets de fleurs"]},
-  {id:"aubergine", nom:"Aubergine", couleur:"#6C4675", mois:[7,8,9], saisonLabel:"Juillet à septembre", nutrition:["Riche en fibres", "Riche en antioxydants"], plats:[
+  {id:"aubergine", nom:"Aubergine", couleur:"#6C4675", mois:[7,8,9], qb:15, saisonLabel:"Juillet à septembre", prixBase:2, nutrition:["Riche en fibres", "Riche en antioxydants"], plats:[
     "Salade, yaourt, menthe, ail",
     "Vapeur, tahini",
     "Moussaka",
     "Sautées, tomates, oignons",
     "Caviar d'aubergine"]},
-  {id:"poivron", nom:"Poivron", couleur:"#D1495B", mois:[7,8,9], saisonLabel:"Juillet à septembre", nutrition:["Très riche en vitamine C", "Riche en antioxydants"], plats:[
+  {id:"poivron", nom:"Poivron", couleur:"#D1495B", mois:[7,8,9], qb:15, saisonLabel:"Juillet à septembre", prixBase:3, nutrition:["Très riche en vitamine C", "Riche en antioxydants"], plats:[
     "Salade, oignons rouges, vinaigre",
     "Farcis, riz, viande, tomates",
     "Sautés, ail, paprika",
     "Soupe de poivrons"]},
-  {id:"concombre", nom:"Concombre", couleur:"#5B8C4A", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Très hydratant", "Peu calorique"], plats:[
+  {id:"concombre", nom:"Concombre", couleur:"#5B8C4A", mois:[6,7,8,9], qb:13, saisonLabel:"Juin à septembre", prixBase:1, nutrition:["Très hydratant", "Peu calorique"], plats:[
     "Salade, feta, olives, vinaigre",
     "Sauté, sauce soja",
     "Tzatziki / Gaspacho"]},
-  {id:"carotte", nom:"Carotte", couleur:"#E07B39", mois:[7,8,9,10,11], saisonLabel:"Juillet à novembre", nutrition:["Riche en bêta-carotène", "Bon pour la vue"], plats:[
+  {id:"carotte", nom:"Carotte", couleur:"#E07B39", mois:[7,8,9,10,11], qb:17, saisonLabel:"Juillet à novembre", prixBase:1, nutrition:["Riche en bêta-carotène", "Bon pour la vue"], plats:[
     "Râpées, citron, huile d'olive",
     "Vapeur, beurre et persil",
     "Rôties au four, miel, cumin",
     "Glacées, beurre et sucre",
     "Soupe de carottes"]},
-  {id:"potiron", nom:"Potiron", couleur:"#D97B29", mois:[9,10,11,12], saisonLabel:"Septembre à décembre", nutrition:["Riche en bêta-carotène", "Peu calorique"], plats:[
+  {id:"potiron", nom:"Potiron", couleur:"#D97B29", mois:[9,10,11,12], qb:19, saisonLabel:"Septembre à décembre", prixBase:1, nutrition:["Riche en bêta-carotène", "Peu calorique"], plats:[
     "Salade, râpé, noix, vinaigre",
     "Vapeur, crème fraîche",
     "Soupe",
     "Purée, pommes de terre, muscade"]},
-  {id:"choukale", nom:"Chou kale", couleur:"#3E5C42", mois:[10,11,12], saisonLabel:"Octobre à décembre", nutrition:["Riche en vitamine K", "Riche en antioxydants"], plats:[
+  {id:"choukale", nom:"Chou kale", couleur:"#3E5C42", mois:[10,11,12], qb:21, saisonLabel:"Octobre à décembre", prixBase:3, nutrition:["Riche en vitamine K", "Riche en antioxydants"], plats:[
     "Salade massée, huile, citron",
     "Vapeur, noix, vinaigre",
     "Chips au four, sel",
     "Sauté, ail, piment",
     "Smoothie vert"]},
-  {id:"celerirave", nom:"Céleri-rave", couleur:"#C9B896", mois:[9,10,11,12,1,2,3], saisonLabel:"Septembre à mars", nutrition:["Peu calorique", "Riche en fibres"], plats:[
+  {id:"celerirave", nom:"Céleri-rave", couleur:"#C9B896", mois:[9,10,11,12,1,2,3], qb:23, saisonLabel:"Septembre à mars", prixBase:1, nutrition:["Peu calorique", "Riche en fibres"], plats:[
     "Râpé, rémoulade, mayonnaise",
     "Vapeur, sauce fromage",
     "Purée, pommes de terre, crème",
     "Soupe, pommes, bouillon"]},
-  {id:"betterave", nom:"Betterave", couleur:"#8E2A4B", mois:[6,7,8,9,10], saisonLabel:"Juin à octobre", nutrition:["Riche en folates", "Source de fibres"], plats:[
+  {id:"betterave", nom:"Betterave", couleur:"#8E2A4B", mois:[6,7,8,9,10], qb:15, saisonLabel:"Juin à octobre", prixBase:1, nutrition:["Riche en folates", "Source de fibres"], plats:[
     "Râpée, vinaigre, noix",
     "Vapeur, chèvre",
     "Rôtie au four, thym",
     "Velouté / Marinée"]},
-  {id:"chou", nom:"Chou", couleur:"#5C8A52", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Riche en vitamine C", "Riche en fibres"], plats:[
+  {id:"chou", nom:"Chou", couleur:"#5C8A52", mois:[10,11,12,1,2,3], qb:23, saisonLabel:"Octobre à mars", prixBase:1, nutrition:["Riche en vitamine C", "Riche en fibres"], plats:[
     "Salade émincée, carottes, vinaigre",
     "Braisé, lardons, pommes",
     "Soupe / Farci / Chou rouge mariné"]},
-  {id:"poireau", nom:"Poireau", couleur:"#6B8F5E", mois:[10,11,12,1,2,3,4], saisonLabel:"Octobre à avril", nutrition:["Diurétique", "Riche en fibres"], plats:[
+  {id:"poireau", nom:"Poireau", couleur:"#6B8F5E", mois:[10,11,12,1,2,3,4], qb:1, saisonLabel:"Octobre à avril", prixBase:1, nutrition:["Diurétique", "Riche en fibres"], plats:[
     "Salade, jeunes pousses, vinaigre",
     "Vapeur, sauce fromage",
     "Gratinés, béchamel, fromage",
     "Braisés, vin blanc, crème",
     "Soupe"]},
-  {id:"endive", nom:"Endive", couleur:"#D9CE8E", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Peu calorique", "Riche en fibres"], plats:[
+  {id:"endive", nom:"Endive", couleur:"#D9CE8E", mois:[10,11,12,1,2,3], qb:23, saisonLabel:"Octobre à mars", prixBase:2, nutrition:["Peu calorique", "Riche en fibres"], plats:[
     "Salade, noix, roquefort",
     "Braisées, jambon, béchamel",
     "Farcies / Gratinées"]},
-  {id:"topinambour", nom:"Topinambour", couleur:"#A9784A", mois:[11,12,1,2,3], saisonLabel:"Novembre à mars", nutrition:["Riche en fibres", "Effet prébiotique"], plats:[
+  {id:"topinambour", nom:"Topinambour", couleur:"#A9784A", mois:[11,12,1,2,3], qb:1, saisonLabel:"Novembre à mars", prixBase:3, nutrition:["Riche en fibres", "Effet prébiotique"], plats:[
     "Râpé, salade, vinaigrette",
     "Vapeur, beurre",
     "Purée, pommes de terre",
     "Velouté, crème, noisettes"]},
-  {id:"panais", nom:"Panais", couleur:"#DDD0A8", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Riche en fibres", "Source de vitamine C"], plats:[
+  {id:"panais", nom:"Panais", couleur:"#DDD0A8", mois:[10,11,12,1,2,3], qb:23, saisonLabel:"Octobre à mars", prixBase:1, nutrition:["Riche en fibres", "Source de vitamine C"], plats:[
     "Râpé, salade, carottes",
     "Vapeur, beurre noisette",
     "Soupe au curry",
     "Purée, muscade / Rôtis, miel"]},
-  {id:"blette", nom:"Blette", couleur:"#5A8C4A", mois:[6,7,8,9,10,11], saisonLabel:"Juin à novembre", nutrition:["Riche en fer", "Riche en vitamine K"], plats:[
+  {id:"blette", nom:"Blette", couleur:"#5A8C4A", mois:[6,7,8,9,10,11], qb:15, saisonLabel:"Juin à novembre", prixBase:2, nutrition:["Riche en fer", "Riche en vitamine K"], plats:[
     "Gratin de blettes",
     "Blettes à la crème",
     "Blettes sautées, ail",
     "Tarte aux blettes",
     "Soupe de blettes"]},
-  {id:"brocoli", nom:"Brocoli", couleur:"#3F7D3F", mois:[10,11,12,1,2,3,4], saisonLabel:"Octobre à avril", nutrition:["Riche en vitamine C", "Riche en fibres"], plats:[
+  {id:"brocoli", nom:"Brocoli", couleur:"#3F7D3F", mois:[10,11,12,1,2,3,4], qb:1, saisonLabel:"Octobre à avril", prixBase:2, nutrition:["Riche en vitamine C", "Riche en fibres"], plats:[
     "Vapeur, sauce fromage",
     "Gratin de brocolis",
     "Sautés, ail et piment",
     "Salade de brocolis crus",
     "Soupe de brocolis"]},
-  {id:"celeribranche", nom:"Céleri-branche", couleur:"#A8C97F", mois:[7,8,9,10,11], saisonLabel:"Juillet à novembre", nutrition:["Peu calorique", "Riche en fibres"], plats:[
+  {id:"celeribranche", nom:"Céleri-branche", couleur:"#A8C97F", mois:[7,8,9,10,11], qb:17, saisonLabel:"Juillet à novembre", prixBase:2, nutrition:["Peu calorique", "Riche en fibres"], plats:[
     "Bâtonnets crus, apéritif",
     "Soupe de céleri",
     "Céleri braisé",
     "Poêlée céleri, lardons",
     "Velouté de céleri"]},
-  {id:"choufleur", nom:"Chou-fleur", couleur:"#EDE9D8", mois:[10,11,12,1,2,3,4], saisonLabel:"Octobre à avril", nutrition:["Riche en vitamine C", "Peu calorique"], plats:[
+  {id:"choufleur", nom:"Chou-fleur", couleur:"#EDE9D8", mois:[10,11,12,1,2,3,4], qb:1, saisonLabel:"Octobre à avril", prixBase:1, nutrition:["Riche en vitamine C", "Peu calorique"], plats:[
     "Gratin de chou-fleur",
     "Vapeur, béchamel",
     "Salade de chou-fleur cru",
     "Purée de chou-fleur",
     "Sauté, curry"]},
-  {id:"choubruxelles", nom:"Chou de Bruxelles", couleur:"#4F7942", mois:[10,11,12,1,2], saisonLabel:"Octobre à février", nutrition:["Riche en vitamine C", "Riche en fibres"], plats:[
+  {id:"choubruxelles", nom:"Chou de Bruxelles", couleur:"#4F7942", mois:[10,11,12,1,2], qb:23, saisonLabel:"Octobre à février", prixBase:2, nutrition:["Riche en vitamine C", "Riche en fibres"], plats:[
     "Rôtis au four",
     "Poêlée, lardons",
     "Gratin de choux de Bruxelles",
     "Vapeur, beurre",
     "Salade crue émincée"]},
-  {id:"cornichon", nom:"Cornichon", couleur:"#5F8F4E", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Très peu calorique", "Source de fibres"], plats:[
+  {id:"cornichon", nom:"Cornichon", couleur:"#5F8F4E", mois:[6,7,8,9], qb:13, saisonLabel:"Juin à septembre", prixBase:2, nutrition:["Très peu calorique", "Source de fibres"], plats:[
     "Bocaux au vinaigre (maison)",
     "Tranches, apéritif",
     "Sauce tartare maison",
     "Salade pommes de terre, cornichons",
     "Vinaigrette pour crudités"]},
-  {id:"courge", nom:"Courge", couleur:"#D9A441", mois:[9,10,11,12], saisonLabel:"Septembre à décembre", nutrition:["Riche en bêta-carotène", "Peu calorique"], plats:[
+  {id:"courge", nom:"Courge", couleur:"#D9A441", mois:[9,10,11,12], qb:19, saisonLabel:"Septembre à décembre", prixBase:1, nutrition:["Riche en bêta-carotène", "Peu calorique"], plats:[
     "Velouté de courge",
     "Rôtie au four",
     "Gratin de courge",
     "Purée de courge",
     "Risotto à la courge"]},
-  {id:"cresson", nom:"Cresson", couleur:"#2F5D2A", mois:[10,11,12,1,2,3,4], saisonLabel:"Octobre à avril", nutrition:["Très riche en vitamine C", "Riche en fer"], plats:[
+  {id:"cresson", nom:"Cresson", couleur:"#2F5D2A", mois:[10,11,12,1,2,3,4], qb:1, saisonLabel:"Octobre à avril", prixBase:2, nutrition:["Très riche en vitamine C", "Riche en fer"], plats:[
     "Salade de cresson, vinaigrette",
     "Velouté de cresson",
     "Sauté, ail",
     "En garniture de viandes",
     "Smoothie vert"]},
-  {id:"fenouil", nom:"Fenouil", couleur:"#C8D9A0", mois:[7,8,9,10,11], saisonLabel:"Juillet à novembre", nutrition:["Riche en fibres", "Peu calorique"], plats:[
+  {id:"fenouil", nom:"Fenouil", couleur:"#C8D9A0", mois:[7,8,9,10,11], qb:17, saisonLabel:"Juillet à novembre", prixBase:2, nutrition:["Riche en fibres", "Peu calorique"], plats:[
     "Cru, finement tranché",
     "Braisé",
     "Rôti au four",
     "Vapeur",
     "Gratin de fenouil"]},
-  {id:"haricotvert", nom:"Haricot vert", couleur:"#4C8C3F", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Source de fibres", "Riche en vitamine C"], plats:[
+  {id:"haricotvert", nom:"Haricot vert", couleur:"#4C8C3F", mois:[6,7,8,9], qb:13, saisonLabel:"Juin à septembre", prixBase:2, nutrition:["Source de fibres", "Riche en vitamine C"], plats:[
     "Vapeur, beurre",
     "Salade, vinaigrette échalote",
     "Sautés, ail",
     "Gratin de haricots verts",
     "À l'étouffée, tomate"]},
-  {id:"navet", nom:"Navet", couleur:"#E3DCC8", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Peu calorique", "Source de fibres"], plats:[
+  {id:"navet", nom:"Navet", couleur:"#E3DCC8", mois:[10,11,12,1,2,3], qb:23, saisonLabel:"Octobre à mars", prixBase:1, nutrition:["Peu calorique", "Source de fibres"], plats:[
     "Glacés, beurre et sucre",
     "Purée de navets",
     "Rôtis au four",
     "Soupe navets, pommes de terre",
     "Braisés, façon canard"]},
-  {id:"patatedouce", nom:"Patate douce", couleur:"#E08D4B", mois:[9,10,11,12], saisonLabel:"Septembre à décembre", nutrition:["Riche en bêta-carotène", "Source de fibres"], plats:[
+  {id:"patatedouce", nom:"Patate douce", couleur:"#E08D4B", mois:[9,10,11,12], qb:19, saisonLabel:"Septembre à décembre", prixBase:2, nutrition:["Riche en bêta-carotène", "Source de fibres"], plats:[
     "Rôtie au four",
     "Purée de patate douce",
     "Frites au four",
     "Velouté de patate douce",
     "Sautée, épices"]},
-  {id:"pommedeterre", nom:"Pomme de terre", couleur:"#C9A876", mois:[9,10,11,12,1,2,3], saisonLabel:"Septembre à mars", nutrition:["Source d'énergie", "Riche en potassium"], plats:[
+  {id:"pommedeterre", nom:"Pomme de terre", couleur:"#C9A876", mois:[9,10,11,12,1,2,3], qb:23, saisonLabel:"Septembre à mars", prixBase:1, nutrition:["Source d'énergie", "Riche en potassium"], plats:[
     "Rôties au four",
     "Purée de pommes de terre",
     "Gratin dauphinois",
     "Sautées, persil",
     "Soupe pommes de terre, poireaux"]},
-  {id:"potimarron", nom:"Potimarron", couleur:"#C1531F", mois:[9,10,11,12], saisonLabel:"Septembre à décembre", nutrition:["Riche en bêta-carotène", "Riche en fibres"], plats:[
+  {id:"potimarron", nom:"Potimarron", couleur:"#C1531F", mois:[9,10,11,12], qb:19, saisonLabel:"Septembre à décembre", prixBase:1, nutrition:["Riche en bêta-carotène", "Riche en fibres"], plats:[
     "Velouté de potimarron",
     "Rôti au four, avec la peau",
     "Purée de potimarron",
     "Gratin de potimarron",
     "Risotto au potimarron"]},
-  {id:"rhubarbe", nom:"Rhubarbe", couleur:"#C8506B", mois:[4,5,6,7], saisonLabel:"Avril à juillet", nutrition:["Peu calorique", "Riche en fibres"], plats:[
-    "Compote de rhubarbe",
-    "Tarte à la rhubarbe",
-    "Confiture de rhubarbe",
-    "Rôtie au four, sucrée",
-    "Crumble à la rhubarbe"]},
-  {id:"rutabaga", nom:"Rutabaga", couleur:"#C9973E", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Source de fibres", "Peu calorique"], plats:[
+  {id:"butternut", nom:"Butternut", couleur:"#D9A15A", mois:[9,10,11,12], qb:19, saisonLabel:"Septembre à décembre", prixBase:1, nutrition:["Riche en bêta-carotène", "Source de fibres"], plats:[
+    "Velouté de butternut",
+    "Rôti au four",
+    "Purée de butternut",
+    "Gratin de butternut",
+    "Risotto au butternut"]},
+  {id:"rutabaga", nom:"Rutabaga", couleur:"#C9973E", mois:[10,11,12,1,2,3], qb:23, saisonLabel:"Octobre à mars", prixBase:1, nutrition:["Source de fibres", "Peu calorique"], plats:[
     "Purée de rutabaga",
     "Gratin de rutabaga",
     "Rôti au four",
     "Soupe de rutabaga",
     "Frites au four"]},
-  {id:"salsifis", nom:"Salsifis", couleur:"#8A7A63", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Source de fibres", "Peu calorique"], plats:[
+  {id:"salsifis", nom:"Salsifis", couleur:"#8A7A63", mois:[10,11,12,1,2,3], qb:23, saisonLabel:"Octobre à mars", prixBase:3, nutrition:["Source de fibres", "Peu calorique"], plats:[
     "Salsifis à la crème",
     "Sautés, persil",
     "Gratin de salsifis",
@@ -1215,6 +1248,54 @@ function isComingSoon(veg){
   const nextMonth = (m % 12) + 1;
   return !veg.mois.includes(m) && veg.mois.includes(nextMonth);
 }
+
+/* ============ ESTIMATION DU NIVEAU DE PRIX (proxy, pas une donnée RNM en direct) ============
+   Principe : les prix sont estimés au plus bas au cœur de la pleine saison (quand l'offre est
+   maximale). Un ajustement régional simple avance ou retarde cette quinzaine de repère
+   (récolte plus précoce dans le Sud, plus tardive dans le Nord/Est). Ceci reste une estimation
+   raisonnée, pas une donnée officielle du RNM FranceAgriMer. */
+const MOIS_NOMS = ['', 'janvier','février','mars','avril','mai','juin','juillet','août',
+                   'septembre','octobre','novembre','décembre'];
+const REGION_SHIFT = {
+  "Provence-Alpes-Côte d'Azur": -1, "Occitanie": -1, "Corse": -1, "Nouvelle-Aquitaine": -1,
+  "Hauts-de-France": 1, "Normandie": 1, "Grand Est": 1, "Bourgogne-Franche-Comté": 1, "Île-de-France": 1
+};
+function regionShift(){
+  return REGION_SHIFT[settings.region] || 0;
+}
+function getQbSlot(veg){
+  return ((veg.qb + regionShift()) % 24 + 24) % 24;
+}
+function slotToLabel(slot){
+  const month = Math.floor(slot/2) + 1;
+  const half = slot % 2;
+  return (half===1 ? 'Fin ' : 'Début ') + MOIS_NOMS[month];
+}
+function todaySlot(){
+  const now = new Date();
+  return (now.getMonth())*2 + (now.getDate() <= 15 ? 0 : 1);
+}
+function getPriceLevel(veg){
+  const base = veg.prixBase || 2;
+  let adjust = 0;
+  if(!isInSeason(veg)){
+    adjust = 1; // hors saison : plutôt plus cher que d'habitude
+  } else {
+    const qb = getQbSlot(veg);
+    const t = todaySlot();
+    let diff = Math.abs(t - qb);
+    diff = Math.min(diff, 24 - diff);
+    if(diff <= 1) adjust = -1; // dans la quinzaine de prix bas : plutôt moins cher que d'habitude
+  }
+  return Math.min(4, Math.max(1, base + adjust));
+}
+const PRICE_ICON = {1:'€', 2:'€€', 3:'€€€', 4:'€€€€'};
+const PRICE_LABEL = {
+  1:'Indice prix bas (estimation)',
+  2:'Indice prix moyen (estimation)',
+  3:'Indice prix élevé (estimation)',
+  4:'Indice prix très élevé (estimation)'
+};
 function shuffleArray(arr){
   const a = [...arr];
   for(let i=a.length-1; i>0; i--){
@@ -1271,11 +1352,16 @@ function cardHTML(veg, inSeasonSection){
   const gout = getGout(veg.id);
   const isSel = selected.has(veg.id);
   const inSeason = isInSeason(veg);
+  const priceLevel = getPriceLevel(veg);
+  const nutriSorted = [...(veg.nutrition||[])].slice(0,2).sort((a,b)=>a.length-b.length);
   return `
     <div class="veg-card ${isSel?'selected':''} ${inSeason?'in-season':''}" data-id="${veg.id}" data-inseason="${inSeasonSection}" style="--veg-color:${veg.couleur}">
       <span class="check-badge">✓</span>
       <div class="name">${veg.nom}</div>
-      <div class="nutri-tags">${(veg.nutrition||[]).slice(0,2).map(n=>`<span class="nutri-badge ${inSeason?'':'nutri-badge-muted'}">${n}</span>`).join('')}</div>
+      <div class="badge-stack">
+        ${nutriSorted.map(n=>`<span class="nutri-badge ${inSeason?'':'nutri-badge-muted'}">${n}</span>`).join('')}
+        <div class="price-badge" title="${PRICE_LABEL[priceLevel]}">Indice prix <span class="euros">${PRICE_ICON[priceLevel]}</span></div>
+      </div>
       <button class="heart-btn ${GOUT_CLASS[gout]}" data-id="${veg.id}" title="Indiquer ton goût" aria-label="Indiquer ton goût pour ${veg.nom}">${GOUT_ICON[gout]}</button>
     </div>`;
 }
@@ -1323,7 +1409,9 @@ function openSeasonSheet(id){
   seasonSheetId = id;
   const veg = LEGUMES.find(v=>v.id===id);
   document.getElementById('season-veg-name').textContent = veg.nom;
-  document.getElementById('season-veg-info').textContent = `Pleine saison : ${veg.saisonLabel} — ce légume n'est pas de saison en ce moment.`;
+  document.getElementById('season-veg-info').textContent =
+    `Pleine saison : ${veg.saisonLabel} — ce légume n'est pas de saison en ce moment. ` +
+    `Prix généralement au plus bas autour de : ${slotToLabel(getQbSlot(veg))} (estimation).`;
   document.getElementById('season-backdrop').classList.add('open');
 }
 function closeSeasonSheet(){
@@ -1496,14 +1584,27 @@ function nextRecipeName(base){
 }
 
 /* ============ SUGGESTIONS "J'ADORE" → NEUTRE ============ */
+let shuffledAimeIds = null;
+let shuffledNeutreIds = null;
+let platsLeftAt = 0;
+function resetSuggestionsIfStale(){
+  if(platsLeftAt && (Date.now() - platsLeftAt >= 60000)){
+    shuffledAimeIds = null;
+    shuffledNeutreIds = null;
+  }
+}
 function getSuggestionPairs(){
   const aimes = LEGUMES.filter(v => getGout(v.id) === 'aime');
   const neutres = LEGUMES.filter(v => getGout(v.id) === 'neutre');
   if(aimes.length === 0 || neutres.length === 0) return [];
 
-  const score = v => (isInSeason(v) ? 0 : 1); // en saison d'abord
-  const aimesTri = [...aimes].sort((a,b)=>score(a)-score(b));
-  const neutresTri = [...neutres].sort((a,b)=>score(a)-score(b));
+  if(!shuffledAimeIds) shuffledAimeIds = shuffleArray(aimes.map(v=>v.id));
+  if(!shuffledNeutreIds) shuffledNeutreIds = shuffleArray(neutres.map(v=>v.id));
+
+  const aimesTri = shuffledAimeIds.map(id=>aimes.find(v=>v.id===id)).filter(Boolean)
+    .concat(aimes.filter(v=>!shuffledAimeIds.includes(v.id)));
+  const neutresTri = shuffledNeutreIds.map(id=>neutres.find(v=>v.id===id)).filter(Boolean)
+    .concat(neutres.filter(v=>!shuffledNeutreIds.includes(v.id)));
 
   const pairs = [];
   for(let i=0; i<neutresTri.length && pairs.length<3; i++){
@@ -1511,6 +1612,42 @@ function getSuggestionPairs(){
     pairs.push([aime, neutresTri[i]]);
   }
   return pairs;
+}
+function getTopAimeSuggestion(excludeIds){
+  const aimesInSeason = LEGUMES.filter(v => getGout(v.id)==='aime' && isInSeason(v));
+  const aimesAny = LEGUMES.filter(v => getGout(v.id)==='aime');
+  const aime = aimesInSeason[0] || aimesAny[0];
+  if(!aime) return null;
+  const neutres = LEGUMES.filter(v => getGout(v.id)==='neutre' && !excludeIds.includes(v.id) && v.id !== aime.id);
+  if(neutres.length === 0) return null;
+  const neutre = neutres.find(v=>isInSeason(v)) || neutres[0];
+  return [aime, neutre];
+}
+function suggestCardHTML(aime, neutre){
+  return `
+    <div class="suggest-card">
+      <div class="pair"><span class="aime-tag">${aime.nom} ❤️</span> + ${neutre.nom}</div>
+      <p>Tu aimes ${aime.nom} — découvre des recettes qui l'associent à ${neutre.nom}.</p>
+      <a class="small-link" target="_blank" rel="noopener" href="${buildSearchUrl([aime.nom, neutre.nom])}">🔎 Voir des recettes en ligne</a>
+    </div>
+  `;
+}
+function getCheapCombo(){
+  const cheap = LEGUMES.filter(v => getPriceLevel(v) === 1);
+  if(cheap.length < 2) return null;
+  const inSeasonCheap = cheap.filter(isInSeason);
+  const pool = inSeasonCheap.length >= 2 ? inSeasonCheap : cheap;
+  const shuffled = shuffleArray(pool);
+  return [shuffled[0], shuffled[1]];
+}
+function cheapComboHTML(v1, v2){
+  return `
+    <div class="suggest-card">
+      <div class="pair">${v1.nom} € + ${v2.nom} €</div>
+      <p>Deux légumes actuellement à l'indice de prix le plus bas — l'occasion de cuisiner malin.</p>
+      <a class="small-link" target="_blank" rel="noopener" href="${buildSearchUrl([v1.nom, v2.nom])}">🔎 Voir des recettes en ligne</a>
+    </div>
+  `;
 }
 
 /* ============ GESTION DES IDÉES DE RECETTES (personnalisables) ============ */
@@ -1581,17 +1718,16 @@ function renderPlats(){
     if(pairs.length === 0){
       html += `<div class="hint-card">Indique tes légumes préférés (♡ sur la grille Légumes) pour recevoir ici des idées de recettes qui les associent à d'autres légumes que tu connais moins.</div>`;
     } else {
-      html += `<div class="section-label">Et si tu essayais avec…</div>`;
-      html += pairs.map(([aime, neutre]) => `
-        <div class="suggest-card">
-          <div class="pair"><span class="aime-tag">${aime.nom} ❤️</span> + ${neutre.nom}</div>
-          <p>Tu aimes ${aime.nom} — découvre des recettes qui l'associent à ${neutre.nom}.</p>
-          <a class="small-link" target="_blank" rel="noopener" href="${buildSearchUrl([aime.nom, neutre.nom])}">🔎 Voir des recettes en ligne</a>
-        </div>
-      `).join('');
+      html += `<div class="section-label">Et si tu essayais…</div>`;
+      html += pairs.map(([aime, neutre]) => suggestCardHTML(aime, neutre)).join('');
     }
     html += `<div class="section-label" style="margin-top:26px;">Ou explore librement</div>`;
     html += `<div class="empty-state" style="padding-top:0;">Sélectionne un ou plusieurs légumes dans l'onglet Légumes pour voir leurs idées de plats et chercher des recettes en ligne.</div>`;
+    const combo = getCheapCombo();
+    if(combo){
+      html += `<div class="section-label" style="margin-top:26px;">Le combo pas cher</div>`;
+      html += cheapComboHTML(combo[0], combo[1]);
+    }
     container.innerHTML = html;
     return;
   }
@@ -1604,6 +1740,14 @@ function renderPlats(){
   const aimeNames = aimesDispo.slice(0, AIME_HINT_COUNT).map(v=>v.nom);
 
   let html = '';
+
+  const topSuggestion = getTopAimeSuggestion(chosen.map(v=>v.id));
+  if(topSuggestion){
+    html += `<div class="section-label">Et si tu essayais…</div>`;
+    html += suggestCardHTML(topSuggestion[0], topSuggestion[1]);
+  } else {
+    html += `<div class="hint-card" style="margin-bottom:16px;">Ajoute un ❤️ à un légume dans Sélection pour voir une suggestion ici.</div>`;
+  }
 
   html += chosen.map(veg => {
     const terms = dedupeCap([veg.nom, ...aimeNames], 1 + AIME_HINT_COUNT);
@@ -1663,6 +1807,12 @@ function renderPlats(){
     if(combinedReturn){
       html += `<button class="return-add-link" data-return-key="${combinedKey}" style="margin-bottom:22px;">✅ De retour ? → Ajouter cette recette</button>`;
     }
+  }
+
+  const cheapCombo = getCheapCombo();
+  if(cheapCombo){
+    html += `<div class="section-label" style="margin-top:26px;">Le combo pas cher</div>`;
+    html += cheapComboHTML(cheapCombo[0], cheapCombo[1]);
   }
 
   container.innerHTML = html;
@@ -1803,6 +1953,7 @@ function renderReglages(){
     saveJSON('settings_v1', settings);
   });
 });
+document.getElementById('reg-region').addEventListener('change', renderLegumes);
 document.getElementById('btn-reset-prefs').addEventListener('click', ()=>{
   if(confirm('Réinitialiser tous tes goûts personnels (j’adore / je n’aime pas) ?')){
     vegStates = {};
@@ -1819,6 +1970,11 @@ const TITLES = {
   reglages: ['Réglages', 'Restent sur cet appareil uniquement']
 };
 function goTo(screen){
+  const previousActive = document.querySelector('.screen.active');
+  const previousScreen = previousActive ? previousActive.id.replace('screen-','') : null;
+  if(previousScreen === 'plats' && screen !== 'plats'){
+    platsLeftAt = Date.now();
+  }
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+screen).classList.add('active');
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.screen===screen));
@@ -1826,7 +1982,10 @@ function goTo(screen){
   document.getElementById('screen-sub').textContent = TITLES[screen][1];
   document.getElementById('cta-bar').style.display = (screen==='legumes' && selected.size>0) ? 'flex' : 'none';
   document.getElementById('btn-install').style.display = (screen==='reglages') ? 'flex' : 'none';
-  if(screen==='plats') renderPlats();
+  if(screen==='plats'){
+    resetSuggestionsIfStale();
+    renderPlats();
+  }
   if(screen==='courses') renderCourses();
   if(screen==='reglages') renderReglages();
   window.scrollTo(0,0);
