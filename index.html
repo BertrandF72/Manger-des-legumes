@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#3F5A3D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Légumes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Légumes en vue</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,6 +87,10 @@
     background:var(--bg);
     padding:20px 20px 12px;
     border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:12px;
   }
   header.topbar h1{
     font-family:var(--font-display);
@@ -94,6 +103,18 @@
     margin:4px 0 0;
     color:var(--text-muted);
     font-size:0.88rem;
+  }
+  .install-btn{
+    flex-shrink:0;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:1.5px solid var(--border);
+    background:var(--bg-elevated);
+    font-size:1.15rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
 
   main{flex:1; padding:16px;}
@@ -139,10 +160,30 @@
     background:var(--veg-color, var(--border));
   }
   .veg-card:active{transform:scale(0.97);}
+  .veg-card.in-season{
+    background: color-mix(in srgb, var(--veg-color) 16%, var(--bg-elevated));
+    border-color: color-mix(in srgb, var(--veg-color) 45%, var(--border));
+  }
   .veg-card.selected{
     border-color:var(--green);
-    background:var(--green-soft);
+    border-width:2.5px;
   }
+  .veg-card .check-badge{
+    position:absolute;
+    top:9px;
+    right:9px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:var(--green);
+    color:#fff;
+    font-size:0.7rem;
+    font-weight:700;
+    display:none;
+    align-items:center;
+    justify-content:center;
+  }
+  .veg-card.selected .check-badge{ display:flex; }
   .veg-card .name{
     font-family:var(--font-display);
     font-weight:600;
@@ -150,29 +191,24 @@
     line-height:1.2;
     margin-top:4px;
   }
-  .veg-card .badge{
-    display:inline-block;
+  .veg-card .nutri-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px;
     margin-top:6px;
-    font-size:0.68rem;
+  }
+  .veg-card .nutri-badge{
+    font-size:0.6rem;
     font-weight:600;
-    color:var(--ochre);
-    background:var(--ochre-soft);
+    color:#2B2B24;
+    background:#FFFFFF;
     padding:2px 7px;
     border-radius:20px;
+    white-space:nowrap;
   }
-  .veg-card .select-dot{
-    position:absolute;
-    top:14px;
-    right:10px;
-    width:16px;
-    height:16px;
-    border-radius:50%;
-    border:1.5px solid var(--border);
-    background:var(--bg-elevated);
-  }
-  .veg-card.selected .select-dot{
-    background:var(--green);
-    border-color:var(--green);
+  .veg-card .nutri-badge.nutri-badge-muted{
+    color:#8A8571;
+    background:#EDEAE0;
   }
   .veg-card .heart-btn{
     position:absolute;
@@ -191,7 +227,7 @@
     padding:0;
   }
   .veg-card .heart-btn.taste-aime{ border-color:#C1392B; background:#F6E0DD; }
-  .veg-card .heart-btn.taste-deteste{ border-color:var(--clay); background:var(--clay-soft); }
+  .veg-card .heart-btn.taste-pas_aime{ border-color:var(--clay); background:var(--clay-soft); }
 
   .empty-state{
     text-align:center;
@@ -227,9 +263,9 @@
     justify-content:center;
     gap:8px;
     width:100%;
-    background:var(--bg-elevated);
-    color:var(--text);
-    border:1.5px solid var(--border);
+    background:var(--ochre);
+    color:#fff;
+    border:none;
     padding:14px 16px;
     border-radius:14px;
     font-family:var(--font-body);
@@ -283,11 +319,29 @@
   }
 
   .plat-group{margin-bottom:22px;}
+  .plat-group-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:8px;
+  }
   .plat-group h3{
     font-family:var(--font-display);
     font-size:1.1rem;
-    margin:0 0 8px;
+    margin:0;
     font-weight:600;
+  }
+  .plat-add-toggle-inline{
+    flex-shrink:0;
+    background:var(--green-soft);
+    color:var(--green);
+    border:none;
+    padding:6px 12px;
+    border-radius:20px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:0.78rem;
   }
   .plat-row{
     display:flex;
@@ -301,18 +355,78 @@
     margin-bottom:8px;
   }
   .plat-row .plat-name{font-size:0.92rem;}
-  .plat-row .plat-search-btn{
+  .plat-row-icons{
+    display:flex;
+    gap:6px;
     flex-shrink:0;
+  }
+  .plat-icon-btn{
+    width:30px;height:30px;
+    border-radius:50%;
+    border:none;
     background:var(--green-soft);
     color:var(--green);
-    border:none;
-    width:32px;height:32px;
-    border-radius:50%;
-    font-size:1rem;
+    font-size:0.82rem;
     display:flex;
     align-items:center;
     justify-content:center;
     text-decoration:none;
+    padding:0;
+  }
+  .plat-edit-row{
+    display:flex;
+    gap:6px;
+    align-items:center;
+    margin-bottom:8px;
+  }
+  .plat-edit-row input{
+    flex:1;
+    font-family:var(--font-body);
+    font-size:0.86rem;
+    padding:9px 10px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--bg-elevated);
+    color:var(--text);
+  }
+  .plat-edit-row button{
+    flex-shrink:0;
+    width:32px;height:32px;
+    border-radius:50%;
+    border:none;
+    font-size:0.9rem;
+  }
+  .plat-edit-confirm, .plat-add-confirm{ background:var(--green); color:#fff; }
+  .plat-edit-cancel, .plat-add-cancel{ background:var(--clay-soft); color:var(--clay); }
+  .web-more-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    width:100%;
+    box-sizing:border-box;
+    font-size:0.92rem;
+    font-weight:600;
+    color:var(--ochre);
+    text-decoration:none;
+    background:var(--ochre-soft);
+    padding:12px 14px;
+    border-radius:12px;
+    margin-top:4px;
+  }
+  .return-add-link{
+    display:block;
+    width:100%;
+    margin-top:6px;
+    background:var(--green);
+    color:#fff;
+    border:none;
+    padding:10px;
+    border-radius:10px;
+    font-family:var(--font-body);
+    font-weight:600;
+    font-size:0.82rem;
+    text-align:center;
   }
 
   /* ---- Courses screen ---- */
@@ -349,6 +463,15 @@
     border:none;
     color:var(--text-muted);
     font-size:1.1rem;
+    line-height:1;
+    padding:2px 4px;
+  }
+  .course-item .share-btn{
+    flex-shrink:0;
+    background:none;
+    border:none;
+    color:var(--green);
+    font-size:1rem;
     line-height:1;
     padding:2px 4px;
   }
@@ -547,6 +670,8 @@
     font-size:0.94rem;
     font-weight:600;
     margin-bottom:10px;
+    text-decoration:none;
+    box-sizing:border-box;
   }
   .sheet .taste-option .emoji{font-size:1.3rem;}
   .sheet .taste-option .desc{
@@ -560,14 +685,41 @@
     border-color:var(--green);
     background:var(--green-soft);
   }
+  .install-guide{
+    max-height:50vh;
+    overflow-y:auto;
+    margin-bottom:14px;
+  }
+  .install-step{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:10px;
+  }
+  .install-step-title{
+    font-weight:600;
+    font-size:0.9rem;
+    margin-bottom:6px;
+  }
+  .install-step ol{
+    margin:0;
+    padding-left:18px;
+    font-size:0.82rem;
+    color:var(--text-muted);
+    line-height:1.6;
+  }
 </style>
 </head>
 <body>
 <div id="app">
 
   <header class="topbar">
-    <h1 id="screen-title">Sélection</h1>
-    <p class="sub" id="screen-sub">De saison, classés pour toi</p>
+    <div>
+      <h1 id="screen-title">Des légumes toute l'année</h1>
+      <p class="sub" id="screen-sub">De saison, c'est meilleur pour le porte-monnaie et pour la planète</p>
+    </div>
+    <button id="btn-install" class="install-btn" aria-label="Installer l'application">📲</button>
   </header>
 
   <main>
@@ -584,7 +736,7 @@
 
     <!-- ÉCRAN 3 : COURSES -->
     <section class="screen" id="screen-courses">
-      <button class="add-recipe-btn" id="btn-add-recipe">➕ Ajouter une recette trouvée en ligne</button>
+      <button class="add-recipe-btn" id="btn-add-recipe">➕ Recette trouvée en ligne</button>
       <div id="courses-container"></div>
     </section>
 
@@ -635,7 +787,7 @@
   </main>
 
   <div class="cta-bar" id="cta-bar" style="display:none;">
-    <button id="btn-go-plats">Voir les plats (<span id="cta-count">0</span>)</button>
+    <button id="btn-go-plats">Idées recettes - <span id="cta-count">0</span> légume(s)</button>
   </div>
 
   <nav class="tabbar">
@@ -652,7 +804,6 @@
     <div class="sheet">
       <div class="handle"></div>
       <h3 id="taste-veg-name">Légume</h3>
-      <p class="hint">Le neutre est le goût par défaut</p>
       <div id="taste-options"></div>
     </div>
   </div>
@@ -689,120 +840,195 @@
     </div>
   </div>
 
+  <!-- BOTTOM SHEET : installer l'application -->
+  <div class="sheet-backdrop" id="install-backdrop">
+    <div class="sheet">
+      <div class="handle"></div>
+      <h3>Installe l'application</h3>
+      <p class="hint">Pour y accéder directement en plein écran</p>
+      <div class="install-guide">
+        <div class="install-step">
+          <div class="install-step-title">📱 Sur iPhone (Safari)</div>
+          <ol>
+            <li>Touche le bouton Partager <span style="white-space:nowrap;">(carré avec une flèche ↑)</span> en bas de l'écran</li>
+            <li>Fais défiler et touche "Sur l'écran d'accueil"</li>
+            <li>Touche "Ajouter" en haut à droite</li>
+          </ol>
+        </div>
+        <div class="install-step">
+          <div class="install-step-title">🤖 Sur Android (Chrome)</div>
+          <ol>
+            <li>Touche le menu ⋮ en haut à droite</li>
+            <li>Touche "Ajouter à l'écran d'accueil" ou "Installer l'application"</li>
+            <li>Confirme</li>
+          </ol>
+        </div>
+        <div class="install-step">
+          <div class="install-step-title">💻 Sur ordinateur</div>
+          <ol>
+            <li>Regarde dans la barre d'adresse une icône d'installation, ou le menu du navigateur</li>
+            <li>Cherche "Installer l'application" ou "Créer un raccourci"</li>
+          </ol>
+        </div>
+      </div>
+      <button class="taste-option" id="install-cancel-btn" style="margin-top:6px;">
+        <span class="emoji">←</span>
+        <span>Fermer</span>
+      </button>
+    </div>
+  </div>
+  <!-- BOTTOM SHEET : partage (navigateurs sans partage natif) -->
+  <div class="sheet-backdrop" id="share-backdrop">
+    <div class="sheet">
+      <div class="handle"></div>
+      <h3>Partager cette recette</h3>
+      <p class="hint">Choisis comment l'envoyer</p>
+      <a class="taste-option" id="share-mail-link" href="#">
+        <span class="emoji">📧</span>
+        <span>Par e-mail</span>
+      </a>
+      <a class="taste-option" id="share-sms-link" href="#">
+        <span class="emoji">💬</span>
+        <span>Par SMS</span>
+      </a>
+      <button class="taste-option" id="share-cancel-btn">
+        <span class="emoji">←</span>
+        <span>Fermer</span>
+      </button>
+    </div>
+  </div>
+  <!-- BOTTOM SHEET : actions sur une idée de recette -->
+  <div class="sheet-backdrop" id="plat-actions-backdrop">
+    <div class="sheet">
+      <div class="handle"></div>
+      <h3 id="plat-actions-name">Idée</h3>
+      <button class="taste-option" id="plat-actions-edit">
+        <span class="emoji">✏️</span>
+        <span>Modifier cette idée</span>
+      </button>
+      <button class="taste-option" id="plat-actions-delete">
+        <span class="emoji">🗑️</span>
+        <span>Supprimer cette idée</span>
+      </button>
+      <button class="taste-option" id="plat-actions-cancel">
+        <span class="emoji">←</span>
+        <span>Annuler</span>
+      </button>
+    </div>
+  </div>
+
 </div>
 
 <script>
 /* ============ DONNÉES ============ */
 const LEGUMES = [
-  {id:"asperge", nom:"Asperge", couleur:"#8FA85E", mois:[4,5,6], saisonLabel:"Avril à juin", plats:[
+  {id:"asperge", nom:"Asperge", couleur:"#8FA85E", mois:[4,5,6], saisonLabel:"Avril à juin", nutrition:["Diurétique", "Riche en folates"], plats:[
     "Salade, vinaigrette citron-huile",
     "Asperges vapeur, sauce hollandaise",
     "Rôties au four, huile d'olive, sel, poivre",
     "Poêlées, ail et persil",
     "Tarte aux asperges"]},
-  {id:"petitpois", nom:"Petit pois", couleur:"#6B9A4A", mois:[5,6,7], saisonLabel:"Mai à juillet", plats:[
+  {id:"petitpois", nom:"Petit pois", couleur:"#6B9A4A", mois:[5,6,7], saisonLabel:"Mai à juillet", nutrition:["Riche en protéines", "Source de fibres"], plats:[
     "Salade, menthe, feta, tomates",
     "Vapeur, beurre et menthe",
     "Risotto aux petits pois",
     "Sautés, lardons et oignons",
     "Purée de petits pois"]},
-  {id:"radis", nom:"Radis", couleur:"#D0455A", mois:[3,4,5,6], saisonLabel:"Mars à juin", plats:[
+  {id:"radis", nom:"Radis", couleur:"#D0455A", mois:[3,4,5,6], saisonLabel:"Mars à juin", nutrition:["Peu calorique", "Riche en vitamine C"], plats:[
     "Tranches, beurre salé et pain",
     "Rôtis au four, miel et moutarde",
     "Sautés, beurre et persil",
     "Tartine, fromage frais, ciboulette"]},
-  {id:"epinard", nom:"Épinard", couleur:"#33622E", mois:[3,4,5], saisonLabel:"Mars à mai", plats:[
+  {id:"epinard", nom:"Épinard", couleur:"#33622E", mois:[3,4,5], saisonLabel:"Mars à mai", nutrition:["Riche en fer", "Riche en vitamine K"], plats:[
     "Salade, noix, vinaigre balsamique",
     "Vapeur, noix de muscade",
     "Quiche aux épinards",
     "À la crème, ail, crème fraîche",
     "Smoothie vert"]},
-  {id:"artichaut", nom:"Artichaut", couleur:"#7C8A4C", mois:[4,5,6], saisonLabel:"Avril à juin", plats:[
+  {id:"artichaut", nom:"Artichaut", couleur:"#7C8A4C", mois:[4,5,6], saisonLabel:"Avril à juin", nutrition:["Bon pour le foie", "Riche en fibres"], plats:[
     "Feuilles, sauce vinaigrette",
     "Vapeur, sauce yaourt",
     "Farci, chapelure, ail, persil",
     "Braisé, vin blanc, échalotes",
     "Soupe d'artichauts"]},
-  {id:"tomate", nom:"Tomate", couleur:"#C1392B", mois:[6,7,8,9], saisonLabel:"Juin à septembre", plats:[
+  {id:"tomate", nom:"Tomate", couleur:"#C1392B", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Riche en vitamine C", "Riche en lycopène"], plats:[
     "Salade, mozzarella, basilic",
     "Farcies, viande, riz, herbes",
     "Poêlées, ail, origan",
     "Gazpacho"]},
-  {id:"courgette", nom:"Courgette", couleur:"#4C7A3F", mois:[6,7,8,9], saisonLabel:"Juin à septembre", plats:[
+  {id:"courgette", nom:"Courgette", couleur:"#4C7A3F", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Peu calorique", "Riche en eau"], plats:[
     "Carpaccio, parmesan, huile d'olive",
     "Vapeur, beurre et citron",
     "Gratin, crème et fromage",
     "Sautées, ail, piment",
     "Beignets de fleurs"]},
-  {id:"aubergine", nom:"Aubergine", couleur:"#6C4675", mois:[7,8,9], saisonLabel:"Juillet à septembre", plats:[
+  {id:"aubergine", nom:"Aubergine", couleur:"#6C4675", mois:[7,8,9], saisonLabel:"Juillet à septembre", nutrition:["Riche en fibres", "Riche en antioxydants"], plats:[
     "Salade, yaourt, menthe, ail",
     "Vapeur, tahini",
     "Moussaka",
     "Sautées, tomates, oignons",
     "Caviar d'aubergine"]},
-  {id:"poivron", nom:"Poivron", couleur:"#D1495B", mois:[7,8,9], saisonLabel:"Juillet à septembre", plats:[
+  {id:"poivron", nom:"Poivron", couleur:"#D1495B", mois:[7,8,9], saisonLabel:"Juillet à septembre", nutrition:["Très riche en vitamine C", "Riche en antioxydants"], plats:[
     "Salade, oignons rouges, vinaigre",
     "Farcis, riz, viande, tomates",
     "Sautés, ail, paprika",
     "Soupe de poivrons"]},
-  {id:"concombre", nom:"Concombre", couleur:"#5B8C4A", mois:[6,7,8,9], saisonLabel:"Juin à septembre", plats:[
+  {id:"concombre", nom:"Concombre", couleur:"#5B8C4A", mois:[6,7,8,9], saisonLabel:"Juin à septembre", nutrition:["Très hydratant", "Peu calorique"], plats:[
     "Salade, feta, olives, vinaigre",
     "Sauté, sauce soja",
     "Tzatziki / Gaspacho"]},
-  {id:"carotte", nom:"Carotte", couleur:"#E07B39", mois:[7,8,9,10,11], saisonLabel:"Juillet à novembre", plats:[
+  {id:"carotte", nom:"Carotte", couleur:"#E07B39", mois:[7,8,9,10,11], saisonLabel:"Juillet à novembre", nutrition:["Riche en bêta-carotène", "Bon pour la vue"], plats:[
     "Râpées, citron, huile d'olive",
     "Vapeur, beurre et persil",
     "Rôties au four, miel, cumin",
     "Glacées, beurre et sucre",
     "Soupe de carottes"]},
-  {id:"potiron", nom:"Potiron", couleur:"#D97B29", mois:[9,10,11,12], saisonLabel:"Septembre à décembre", plats:[
+  {id:"potiron", nom:"Potiron", couleur:"#D97B29", mois:[9,10,11,12], saisonLabel:"Septembre à décembre", nutrition:["Riche en bêta-carotène", "Peu calorique"], plats:[
     "Salade, râpé, noix, vinaigre",
     "Vapeur, crème fraîche",
     "Soupe",
     "Purée, pommes de terre, muscade"]},
-  {id:"choukale", nom:"Chou kale", couleur:"#3E5C42", mois:[10,11,12], saisonLabel:"Octobre à décembre", plats:[
+  {id:"choukale", nom:"Chou kale", couleur:"#3E5C42", mois:[10,11,12], saisonLabel:"Octobre à décembre", nutrition:["Riche en vitamine K", "Riche en antioxydants"], plats:[
     "Salade massée, huile, citron",
     "Vapeur, noix, vinaigre",
     "Chips au four, sel",
     "Sauté, ail, piment",
     "Smoothie vert"]},
-  {id:"celerirave", nom:"Céleri-rave", couleur:"#C9B896", mois:[9,10,11,12,1,2,3], saisonLabel:"Septembre à mars", plats:[
+  {id:"celerirave", nom:"Céleri-rave", couleur:"#C9B896", mois:[9,10,11,12,1,2,3], saisonLabel:"Septembre à mars", nutrition:["Peu calorique", "Riche en fibres"], plats:[
     "Râpé, rémoulade, mayonnaise",
     "Vapeur, sauce fromage",
     "Purée, pommes de terre, crème",
     "Soupe, pommes, bouillon"]},
-  {id:"betterave", nom:"Betterave", couleur:"#8E2A4B", mois:[6,7,8,9,10], saisonLabel:"Juin à octobre", plats:[
+  {id:"betterave", nom:"Betterave", couleur:"#8E2A4B", mois:[6,7,8,9,10], saisonLabel:"Juin à octobre", nutrition:["Riche en folates", "Source de fibres"], plats:[
     "Râpée, vinaigre, noix",
     "Vapeur, chèvre",
     "Rôtie au four, thym",
     "Velouté / Marinée"]},
-  {id:"chou", nom:"Chou", couleur:"#5C8A52", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", plats:[
+  {id:"chou", nom:"Chou", couleur:"#5C8A52", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Riche en vitamine C", "Riche en fibres"], plats:[
     "Salade émincée, carottes, vinaigre",
     "Braisé, lardons, pommes",
     "Soupe / Farci / Chou rouge mariné"]},
-  {id:"poireau", nom:"Poireau", couleur:"#6B8F5E", mois:[10,11,12,1,2,3,4], saisonLabel:"Octobre à avril", plats:[
+  {id:"poireau", nom:"Poireau", couleur:"#6B8F5E", mois:[10,11,12,1,2,3,4], saisonLabel:"Octobre à avril", nutrition:["Diurétique", "Riche en fibres"], plats:[
     "Salade, jeunes pousses, vinaigre",
     "Vapeur, sauce fromage",
     "Gratinés, béchamel, fromage",
     "Braisés, vin blanc, crème",
     "Soupe"]},
-  {id:"endive", nom:"Endive", couleur:"#D9CE8E", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", plats:[
+  {id:"endive", nom:"Endive", couleur:"#D9CE8E", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Peu calorique", "Riche en fibres"], plats:[
     "Salade, noix, roquefort",
     "Braisées, jambon, béchamel",
     "Farcies / Gratinées"]},
-  {id:"topinambour", nom:"Topinambour", couleur:"#A9784A", mois:[11,12,1,2,3], saisonLabel:"Novembre à mars", plats:[
+  {id:"topinambour", nom:"Topinambour", couleur:"#A9784A", mois:[11,12,1,2,3], saisonLabel:"Novembre à mars", nutrition:["Riche en fibres", "Effet prébiotique"], plats:[
     "Râpé, salade, vinaigrette",
     "Vapeur, beurre",
     "Purée, pommes de terre",
     "Velouté, crème, noisettes"]},
-  {id:"panais", nom:"Panais", couleur:"#DDD0A8", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", plats:[
+  {id:"panais", nom:"Panais", couleur:"#DDD0A8", mois:[10,11,12,1,2,3], saisonLabel:"Octobre à mars", nutrition:["Riche en fibres", "Source de vitamine C"], plats:[
     "Râpé, salade, carottes",
     "Vapeur, beurre noisette",
     "Soupe au curry",
     "Purée, muscade / Rôtis, miel"]}
 ];
-
-const MONTH_MS = 30.44 * 24 * 3600 * 1000;
 
 /* ============ STOCKAGE LOCAL ============ */
 function loadJSON(key, fallback){
@@ -815,43 +1041,32 @@ function saveJSON(key, value){
   try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){}
 }
 
-let vegStates = loadJSON('veg_states_v2', {});     // { id: {gout, date_masquage} }
-let shoppingList = loadJSON('shopping_list_v1', []); // [{id, legumeId, legumeNom, plat, done, qty, conservation}]
+let vegStates = loadJSON('veg_states_v3', {});     // { id: {gout} }
+let shoppingList = loadJSON('shopping_list_v1', []); // [{id, legumeId, legumeNom, plat, done, url}]
 let settings = loadJSON('settings_v1', {region:'', pseudo:'', moteur:'google'});
 let selected = new Set(); // sélection en cours (non persistée)
 let sheetOpenId = null;
 
-/* Goûts possibles : neutre (défaut) / aime / deteste (masqué ~10 mois, le temps que le goût évolue) */
+/* Goûts possibles : neutre (défaut) / aime / pas_aime — jamais de masquage, juste un repère visuel */
 function getGout(id){
   const s = vegStates[id];
-  if(!s) return 'neutre';
-  if(s.gout === 'deteste' && s.date_masquage && Date.now() > s.date_masquage){
-    return 'neutre';
-  }
-  return s.gout;
-}
-function isHidden(id){
-  return getGout(id) === 'deteste';
+  return s ? s.gout : 'neutre';
 }
 function setGout(id, gout){
   if(gout === 'neutre'){
     delete vegStates[id];
   } else {
-    const entry = {gout};
-    if(gout === 'deteste'){
-      entry.date_masquage = Date.now() + 10*MONTH_MS;
-    }
-    vegStates[id] = entry;
+    vegStates[id] = {gout};
   }
-  saveJSON('veg_states_v2', vegStates);
+  saveJSON('veg_states_v3', vegStates);
 }
 
-const GOUT_ICON = {neutre:'♡', aime:'❤️', deteste:'🚫'};
-const GOUT_CLASS = {neutre:'', aime:'taste-aime', deteste:'taste-deteste'};
+const GOUT_ICON = {neutre:'♡', aime:'❤️', pas_aime:'👎'};
+const GOUT_CLASS = {neutre:'', aime:'taste-aime', pas_aime:'taste-pas_aime'};
 
 const TASTE_OPTIONS = [
-  {gout:'aime', emoji:'❤️', label:"J'adore", desc:"Reste bien en avant tant que c'est de saison"},
-  {gout:'deteste', emoji:'🚫', label:"Je déteste", desc:"Masqué environ 10 mois, le temps que le goût évolue"},
+  {gout:'aime', emoji:'❤️', label:"J'adore", desc:"Intégré prioritairement aux suggestions tant que c'est de saison"},
+  {gout:'pas_aime', emoji:'👎', label:"Je n'aime pas", desc:"Peut-être qu'en l'associant ou en le cuisinant différemment…"},
   {gout:'neutre', emoji:'♡', label:"Neutre (par défaut)", desc:"Affiché normalement selon la saison"}
 ];
 
@@ -860,19 +1075,27 @@ function isInSeason(veg){
   const m = new Date().getMonth()+1;
   return veg.mois.includes(m);
 }
+function shuffleArray(arr){
+  const a = [...arr];
+  for(let i=a.length-1; i>0; i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+let shuffledSeasonIds = shuffleArray(LEGUMES.filter(isInSeason).map(v=>v.id));
 function renderLegumes(){
   const container = document.getElementById('veg-container');
-  const visible = LEGUMES.filter(v => !isHidden(v.id));
-  const enSaison = visible.filter(isInSeason);
-  const horsSaison = visible.filter(v => !isInSeason(v));
+  const enSaisonAll = LEGUMES.filter(isInSeason);
+  const enSaison = shuffledSeasonIds
+    .map(id => enSaisonAll.find(v=>v.id===id))
+    .filter(Boolean)
+    .concat(enSaisonAll.filter(v => !shuffledSeasonIds.includes(v.id)));
+  const horsSaison = LEGUMES.filter(v => !isInSeason(v));
 
-  if(visible.length === 0){
-    container.innerHTML = '<div class="empty-state">Plus aucun légume à afficher — reviens dans Réglages pour réinitialiser tes préférences.</div>';
-  } else {
-    container.innerHTML =
-      (enSaison.length ? sectionHTML('De saison en ce moment', enSaison, true) : '') +
-      (horsSaison.length ? sectionHTML('Autres légumes', horsSaison, false) : '');
-  }
+  container.innerHTML =
+    (enSaison.length ? sectionHTML("C'est le moment d'en profiter !", enSaison, true) : '') +
+    (horsSaison.length ? sectionHTML('Mieux vaut attendre encore un peu…', horsSaison, false) : '');
 
   document.querySelectorAll('.veg-card').forEach(card=>{
     card.addEventListener('click', (e)=>{
@@ -903,11 +1126,12 @@ function sectionHTML(label, list, inSeasonSection){
 function cardHTML(veg, inSeasonSection){
   const gout = getGout(veg.id);
   const isSel = selected.has(veg.id);
+  const inSeason = isInSeason(veg);
   return `
-    <div class="veg-card ${isSel?'selected':''}" data-id="${veg.id}" data-inseason="${inSeasonSection}" style="--veg-color:${veg.couleur}">
-      <div class="select-dot"></div>
+    <div class="veg-card ${isSel?'selected':''} ${inSeason?'in-season':''}" data-id="${veg.id}" data-inseason="${inSeasonSection}" style="--veg-color:${veg.couleur}">
+      <span class="check-badge">✓</span>
       <div class="name">${veg.nom}</div>
-      ${isInSeason(veg) ? '<span class="badge">de saison</span>' : ''}
+      <div class="nutri-tags">${(veg.nutrition||[]).slice(0,2).map(n=>`<span class="nutri-badge ${inSeason?'':'nutri-badge-muted'}">${n}</span>`).join('')}</div>
       <button class="heart-btn ${GOUT_CLASS[gout]}" data-id="${veg.id}" title="Indiquer ton goût" aria-label="Indiquer ton goût pour ${veg.nom}">${GOUT_ICON[gout]}</button>
     </div>`;
 }
@@ -973,17 +1197,114 @@ document.getElementById('season-force-btn').addEventListener('click', ()=>{
 });
 document.getElementById('season-cancel-btn').addEventListener('click', closeSeasonSheet);
 
+/* ============ INSTALLATION SUR L'ÉCRAN D'ACCUEIL ============ */
+function generateIconDataURL(size){
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const r = size * 0.22;
+  ctx.fillStyle = '#3F5A3D';
+  ctx.beginPath();
+  ctx.moveTo(r, 0);
+  ctx.arcTo(size, 0, size, size, r);
+  ctx.arcTo(size, size, 0, size, r);
+  ctx.arcTo(0, size, 0, 0, r);
+  ctx.arcTo(0, 0, size, 0, r);
+  ctx.closePath();
+  ctx.fill();
+  ctx.font = Math.round(size*0.58) + 'px serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('🥕', size/2, size/2 + size*0.04);
+  return canvas.toDataURL('image/png');
+}
+function setupPWAMeta(){
+  try{
+    const icon192 = generateIconDataURL(192);
+    const icon512 = generateIconDataURL(512);
+
+    const appleLink = document.createElement('link');
+    appleLink.rel = 'apple-touch-icon';
+    appleLink.href = icon192;
+    document.head.appendChild(appleLink);
+
+    const favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    favicon.href = icon192;
+    document.head.appendChild(favicon);
+
+    const manifest = {
+      name: "Légumes en vue",
+      short_name: "Légumes",
+      start_url: ".",
+      display: "standalone",
+      background_color: "#F5F1E6",
+      theme_color: "#3F5A3D",
+      icons: [
+        {src: icon192, sizes:"192x192", type:"image/png", purpose:"any maskable"},
+        {src: icon512, sizes:"512x512", type:"image/png", purpose:"any maskable"}
+      ]
+    };
+    const blob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = 'manifest';
+    manifestLink.href = URL.createObjectURL(blob);
+    document.head.appendChild(manifestLink);
+  }catch(e){ /* pas grave si ça échoue, le guide pas-à-pas reste disponible */ }
+}
+setupPWAMeta();
+
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstallPrompt = e;
+});
+function openInstallSheet(){ document.getElementById('install-backdrop').classList.add('open'); }
+function closeInstallSheet(){ document.getElementById('install-backdrop').classList.remove('open'); }
+document.getElementById('btn-install').addEventListener('click', async ()=>{
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+  } else {
+    openInstallSheet();
+  }
+});
+document.getElementById('install-backdrop').addEventListener('click', (e)=>{
+  if(e.target.id === 'install-backdrop') closeInstallSheet();
+});
+document.getElementById('install-cancel-btn').addEventListener('click', closeInstallSheet);
+
+/* ============ SUIVI DE RECHERCHE (retour depuis un onglet web) ============ */
+let pendingSearchContext = null;
+function markPendingSearch(ctx){
+  pendingSearchContext = ctx;
+}
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState === 'visible' && pendingSearchContext && !pendingSearchContext.showReturn){
+    pendingSearchContext.showReturn = true;
+    if(document.getElementById('screen-plats').classList.contains('active')){
+      renderPlats();
+    }
+  }
+});
+
 /* ============ AJOUT MANUEL D'UNE RECETTE (Courses) ============ */
-function openRecipeSheet(){
-  document.getElementById('recipe-name').value = '';
-  document.getElementById('recipe-legume').value = '';
+function openRecipeSheet(ctx){
+  const concernedIds = (ctx && ctx.concernedIds) ? ctx.concernedIds : Array.from(selected);
+  const legumeFieldNames = concernedIds.map(id => { const v = LEGUMES.find(x=>x.id===id); return v ? v.nom : id; });
+  const base = buildNameBase(concernedIds);
+  document.getElementById('recipe-name').value = nextRecipeName(base);
+  document.getElementById('recipe-legume').value = legumeFieldNames.join(', ');
   document.getElementById('recipe-url').value = '';
   document.getElementById('recipe-backdrop').classList.add('open');
+  pendingSearchContext = null;
+  if(document.getElementById('screen-plats').classList.contains('active')) renderPlats();
 }
 function closeRecipeSheet(){
   document.getElementById('recipe-backdrop').classList.remove('open');
 }
-document.getElementById('btn-add-recipe').addEventListener('click', openRecipeSheet);
+document.getElementById('btn-add-recipe').addEventListener('click', ()=> openRecipeSheet(null));
 document.getElementById('recipe-backdrop').addEventListener('click', (e)=>{
   if(e.target.id === 'recipe-backdrop') closeRecipeSheet();
 });
@@ -1031,17 +1352,42 @@ function dedupeCap(names, cap){
   }
   return out;
 }
-function searchCtaHTML(names, label){
-  return `<a class="search-cta" target="_blank" rel="noopener" href="${buildSearchUrl(names)}">
-    <span class="ic">🔎</span> ${label}
+function searchCtaHTML(names, label, extraAttrs){
+  return `<a class="search-cta" target="_blank" rel="noopener" ${extraAttrs||''} href="${buildSearchUrl(names)}">
+    ${label} <span class="ic">🔎</span>
   </a>`;
+}
+
+/* ============ NOMMAGE AUTOMATIQUE DES RECETTES ============ */
+function slugify(str){
+  return str.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'');
+}
+function buildNameBase(ids){
+  const filtered = ids.filter(id => getGout(id) !== 'aime');
+  const useIds = filtered.length ? filtered : ids;
+  const base = useIds
+    .map(id => { const v = LEGUMES.find(x=>x.id===id); return v ? slugify(v.nom) : ''; })
+    .filter(Boolean)
+    .join('-');
+  return base || 'recette';
+}
+function nextRecipeName(base){
+  const escaped = base.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = new RegExp('^' + escaped + '-(\\d{2})$');
+  let max = 0;
+  shoppingList.forEach(it=>{
+    const m = it.plat && it.plat.match(pattern);
+    if(m){ const n = parseInt(m[1],10); if(n>max) max=n; }
+  });
+  return base + '-' + String(max+1).padStart(2,'0');
 }
 
 /* ============ SUGGESTIONS "J'ADORE" → NEUTRE ============ */
 function getSuggestionPairs(){
-  const visible = LEGUMES.filter(v => !isHidden(v.id));
-  const aimes = visible.filter(v => getGout(v.id) === 'aime');
-  const neutres = visible.filter(v => getGout(v.id) === 'neutre');
+  const aimes = LEGUMES.filter(v => getGout(v.id) === 'aime');
+  const neutres = LEGUMES.filter(v => getGout(v.id) === 'neutre');
   if(aimes.length === 0 || neutres.length === 0) return [];
 
   const score = v => (isInSeason(v) ? 0 : 1); // en saison d'abord
@@ -1055,6 +1401,63 @@ function getSuggestionPairs(){
   }
   return pairs;
 }
+
+/* ============ GESTION DES IDÉES DE RECETTES (personnalisables) ============ */
+let platOverrides = loadJSON('plat_overrides_v1', {}); // { legumeId: [idées...] }
+let editingPlat = null;   // {vegId, index} ou null
+let addingPlatFor = null; // vegId ou null
+
+function getPlatsFor(vegId){
+  return platOverrides[vegId] || LEGUMES.find(v=>v.id===vegId).plats;
+}
+function ensureOverride(vegId){
+  if(!platOverrides[vegId]){
+    platOverrides[vegId] = [...LEGUMES.find(v=>v.id===vegId).plats];
+  }
+  return platOverrides[vegId];
+}
+function savePlatOverrides(){ saveJSON('plat_overrides_v1', platOverrides); }
+function addPlatIdea(vegId, text){
+  if(!text || !text.trim()) return;
+  ensureOverride(vegId).push(text.trim());
+  savePlatOverrides();
+}
+function editPlatIdea(vegId, index, text){
+  if(!text || !text.trim()) return;
+  const arr = ensureOverride(vegId);
+  arr[index] = text.trim();
+  savePlatOverrides();
+}
+function removePlatIdea(vegId, index){
+  const arr = ensureOverride(vegId);
+  arr.splice(index, 1);
+  savePlatOverrides();
+}
+
+let platActionsContext = null; // {vegId, index}
+function openPlatActions(vegId, index, platText){
+  platActionsContext = {vegId, index};
+  document.getElementById('plat-actions-name').textContent = platText;
+  document.getElementById('plat-actions-backdrop').classList.add('open');
+}
+function closePlatActions(){
+  document.getElementById('plat-actions-backdrop').classList.remove('open');
+  platActionsContext = null;
+}
+document.getElementById('plat-actions-backdrop').addEventListener('click', (e)=>{
+  if(e.target.id === 'plat-actions-backdrop') closePlatActions();
+});
+document.getElementById('plat-actions-cancel').addEventListener('click', closePlatActions);
+document.getElementById('plat-actions-edit').addEventListener('click', ()=>{
+  editingPlat = {vegId: platActionsContext.vegId, index: platActionsContext.index};
+  closePlatActions();
+  renderPlats();
+});
+document.getElementById('plat-actions-delete').addEventListener('click', ()=>{
+  removePlatIdea(platActionsContext.vegId, platActionsContext.index);
+  closePlatActions();
+  renderPlats();
+});
 
 /* ============ ÉCRAN PLATS ============ */
 function renderPlats(){
@@ -1093,28 +1496,119 @@ function renderPlats(){
 
   html += chosen.map(veg => {
     const terms = dedupeCap([veg.nom, ...aimeNames], 1 + AIME_HINT_COUNT);
+    const legumeKey = `legume::${veg.id}`;
+    const legumeReturn = pendingSearchContext && pendingSearchContext.showReturn && pendingSearchContext.key===legumeKey;
+    const platsList = getPlatsFor(veg.id);
     return `
     <div class="plat-group">
-      <h3 style="margin-bottom:8px;">${veg.nom}</h3>
-      ${veg.plats.map(plat => {
+      <div class="plat-group-header">
+        <h3>${veg.nom}</h3>
+        ${addingPlatFor === veg.id ? '' : `<button class="plat-add-toggle-inline" data-vegid="${veg.id}">+ Idée perso</button>`}
+      </div>
+      ${platsList.map((plat, idx) => {
+        const isEditing = editingPlat && editingPlat.vegId===veg.id && editingPlat.index===idx;
+        if(isEditing){
+          return `<div class="plat-edit-row">
+            <input type="text" class="plat-edit-input" value="${plat.replace(/"/g,'&quot;')}" data-vegid="${veg.id}" data-index="${idx}">
+            <button class="plat-edit-confirm" data-vegid="${veg.id}" data-index="${idx}">✓</button>
+            <button class="plat-edit-cancel">✕</button>
+          </div>`;
+        }
         const platUrl = buildSearchUrl([veg.nom, plat]);
-        return `<div class="plat-row">
-          <span class="plat-name">${plat}</span>
-          <a class="plat-search-btn" href="${platUrl}" target="_blank" rel="noopener" aria-label="Chercher cette recette en ligne">🔎</a>
+        const platKey = `plat::${veg.id}::${idx}::${plat}`;
+        const platReturn = pendingSearchContext && pendingSearchContext.showReturn && pendingSearchContext.key===platKey;
+        return `<div class="plat-row-wrap">
+          <div class="plat-row">
+            <span class="plat-name">${plat}</span>
+            <div class="plat-row-icons">
+              <a class="plat-icon-btn" data-key="${platKey}" data-type="plat" data-legume="${veg.id}" data-plat="${plat.replace(/"/g,'&quot;')}" href="${platUrl}" target="_blank" rel="noopener" aria-label="Chercher cette recette en ligne">🔎</a>
+              <button class="plat-icon-btn plat-menu-btn" data-vegid="${veg.id}" data-index="${idx}" data-plat="${plat.replace(/"/g,'&quot;')}" aria-label="Actions sur cette idée">⋮</button>
+            </div>
+          </div>
+          ${platReturn ? `<button class="return-add-link" data-return-key="${platKey}">✅ De retour ? → Ajouter cette recette</button>` : ''}
         </div>`;
       }).join('')}
-      <a class="small-link" style="margin-top:6px;" target="_blank" rel="noopener" href="${buildSearchUrl(terms)}">🔎 Idées sur le web avec ${veg.nom}</a>
+      ${addingPlatFor === veg.id
+        ? `<div class="plat-edit-row">
+            <input type="text" class="plat-add-input" placeholder="Nouvelle idée…" data-vegid="${veg.id}">
+            <button class="plat-add-confirm" data-vegid="${veg.id}">✓</button>
+            <button class="plat-add-cancel">✕</button>
+          </div>`
+        : ''
+      }
+      <a class="web-more-link" data-key="${legumeKey}" data-type="legume" data-legume="${veg.id}" target="_blank" rel="noopener" href="${buildSearchUrl(terms)}">et encore plus d'idées avec ${veg.nom}</a>
+      ${legumeReturn ? `<button class="return-add-link" data-return-key="${legumeKey}" style="margin-top:6px;">✅ De retour ? → Ajouter cette recette</button>` : ''}
     </div>
   `;
   }).join('');
 
   if(chosen.length > 1){
     const combinedTerms = dedupeCap([...names, ...aimeNames], names.length + AIME_HINT_COUNT);
-    const label = `Recettes combinées : ${names.join(', ')}${aimeNames.length ? ' et un légume favori' : ''}`;
-    html += searchCtaHTML(combinedTerms, label);
+    const label = `Et pourquoi pas une combinaison de tous ces légumes ?`;
+    const combinedKey = `combined::${chosen.map(v=>v.id).sort().join(',')}`;
+    const combinedReturn = pendingSearchContext && pendingSearchContext.showReturn && pendingSearchContext.key===combinedKey;
+    const combinedStyle = combinedReturn ? 'style="margin-bottom:6px;"' : '';
+    html += searchCtaHTML(combinedTerms, label, `data-key="${combinedKey}" data-type="combined" data-legumes="${chosen.map(v=>v.id).join(',')}" ${combinedStyle}`);
+    if(combinedReturn){
+      html += `<button class="return-add-link" data-return-key="${combinedKey}" style="margin-bottom:22px;">✅ De retour ? → Ajouter cette recette</button>`;
+    }
   }
 
   container.innerHTML = html;
+
+  container.querySelectorAll('[data-key]').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const type = el.dataset.type;
+      const concernedIds = type==='combined' ? el.dataset.legumes.split(',') : [el.dataset.legume];
+      markPendingSearch({
+        key: el.dataset.key,
+        type,
+        concernedIds,
+        plat: type==='plat' ? el.dataset.plat : null
+      });
+    });
+  });
+  container.querySelectorAll('.return-add-link').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(pendingSearchContext && pendingSearchContext.key === btn.dataset.returnKey){
+        openRecipeSheet(pendingSearchContext);
+      }
+    });
+  });
+  container.querySelectorAll('.plat-menu-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      openPlatActions(btn.dataset.vegid, parseInt(btn.dataset.index,10), btn.dataset.plat);
+    });
+  });
+  container.querySelectorAll('.plat-edit-confirm').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const input = container.querySelector(`.plat-edit-input[data-vegid="${btn.dataset.vegid}"][data-index="${btn.dataset.index}"]`);
+      editPlatIdea(btn.dataset.vegid, parseInt(btn.dataset.index,10), input.value);
+      editingPlat = null;
+      renderPlats();
+    });
+  });
+  container.querySelectorAll('.plat-edit-cancel').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ editingPlat = null; renderPlats(); });
+  });
+  container.querySelectorAll('.plat-add-toggle-inline').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      addingPlatFor = btn.dataset.vegid;
+      editingPlat = null;
+      renderPlats();
+    });
+  });
+  container.querySelectorAll('.plat-add-confirm').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const input = container.querySelector(`.plat-add-input[data-vegid="${btn.dataset.vegid}"]`);
+      addPlatIdea(btn.dataset.vegid, input.value);
+      addingPlatFor = null;
+      renderPlats();
+    });
+  });
+  container.querySelectorAll('.plat-add-cancel').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ addingPlatFor = null; renderPlats(); });
+  });
 }
 
 /* ============ ÉCRAN COURSES ============ */
@@ -1134,6 +1628,7 @@ function renderCourses(){
           ${item.url ? `<a class="url-link" href="${item.url}" target="_blank" rel="noopener">🔗 ${item.url}</a>` : ''}
         </div>
         <button class="remove" aria-label="Retirer">✕</button>
+        <button class="share-btn" aria-label="Partager cette recette">📤</button>
       </div>
     </div>
   `).join('');
@@ -1152,8 +1647,36 @@ function renderCourses(){
       renderCourses();
       renderPlats();
     });
+    el.querySelector('.share-btn').addEventListener('click', ()=>{
+      const item = shoppingList.find(it=>it.id===id);
+      shareRecipe(item);
+    });
   });
 }
+
+/* ============ PARTAGE D'UNE RECETTE ============ */
+function shareRecipe(item){
+  const text = `${item.legumeNom} — ${item.plat}` + (item.url ? `\n${item.url}` : '');
+  if(navigator.share){
+    navigator.share({title: item.plat, text: text, url: item.url || undefined}).catch(()=>{});
+  } else {
+    openShareFallback(item, text);
+  }
+}
+function openShareFallback(item, text){
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const subject = encodeURIComponent(item.plat);
+  const body = encodeURIComponent(text);
+  document.getElementById('share-mail-link').href = `mailto:?subject=${subject}&body=${body}`;
+  document.getElementById('share-sms-link').href = isIOS ? `sms:&body=${body}` : `sms:?body=${body}`;
+  document.getElementById('share-backdrop').classList.add('open');
+}
+document.getElementById('share-backdrop').addEventListener('click', (e)=>{
+  if(e.target.id === 'share-backdrop') document.getElementById('share-backdrop').classList.remove('open');
+});
+document.getElementById('share-cancel-btn').addEventListener('click', ()=>{
+  document.getElementById('share-backdrop').classList.remove('open');
+});
 
 /* ============ ÉCRAN RÉGLAGES ============ */
 function renderReglages(){
@@ -1170,18 +1693,18 @@ function renderReglages(){
   });
 });
 document.getElementById('btn-reset-prefs').addEventListener('click', ()=>{
-  if(confirm('Réinitialiser tous tes goûts personnels (j’adore / déteste) ?')){
+  if(confirm('Réinitialiser tous tes goûts personnels (j’adore / je n’aime pas) ?')){
     vegStates = {};
-    saveJSON('veg_states_v2', vegStates);
+    saveJSON('veg_states_v3', vegStates);
     renderLegumes();
   }
 });
 
 /* ============ NAVIGATION ============ */
 const TITLES = {
-  legumes: ['Sélection', 'De saison, classés pour toi'],
-  plats: ['Suggestions', 'Idées et recettes à explorer'],
-  courses: ['Recettes', 'Celles que tu veux retrouver'],
+  legumes: ["Des légumes toute l'année", "De saison, c'est meilleur pour le porte-monnaie et pour la planète"],
+  plats: ['Suggestions', "🌐 Recettes pour s'inspirer"],
+  courses: ['Recettes', 'Pour se régaler avec les légumes'],
   reglages: ['Réglages', 'Restent sur cet appareil uniquement']
 };
 function goTo(screen){
@@ -1191,6 +1714,7 @@ function goTo(screen){
   document.getElementById('screen-title').textContent = TITLES[screen][0];
   document.getElementById('screen-sub').textContent = TITLES[screen][1];
   document.getElementById('cta-bar').style.display = (screen==='legumes' && selected.size>0) ? 'flex' : 'none';
+  document.getElementById('btn-install').style.display = (screen==='legumes' || screen==='reglages') ? 'flex' : 'none';
   if(screen==='plats') renderPlats();
   if(screen==='courses') renderCourses();
   if(screen==='reglages') renderReglages();
