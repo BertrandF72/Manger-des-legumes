@@ -772,26 +772,38 @@
     width:100%;
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:14px 14px;
+    gap:14px;
+    padding:16px 14px;
     border-radius:12px;
     border:1.5px solid var(--border);
     background:var(--bg);
     color:var(--text);
     font-family:var(--font-body);
-    font-size:0.94rem;
+    font-size:1.08rem;
     font-weight:600;
     margin-bottom:10px;
     text-decoration:none;
+    text-align:left;
     box-sizing:border-box;
   }
   .sheet .taste-option .emoji{font-size:1.3rem;}
+  .sheet .taste-option .taste-icon{
+    flex-shrink:0;
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .sheet .taste-option .taste-icon svg{ width:26px; height:26px; }
+  .sheet .taste-option .taste-icon-aime{ color:#C1392B; }
+  .sheet .taste-option .taste-icon-pas_aime{ color:var(--clay); }
   .sheet .taste-option .desc{
     font-weight:400;
-    font-size:0.78rem;
+    font-size:0.82rem;
     color:var(--text-muted);
     display:block;
-    margin-top:1px;
+    margin-top:2px;
   }
   .sheet .taste-option.current{
     border-color:var(--green);
@@ -1288,9 +1300,8 @@ const GOUT_ICON = {
 const GOUT_CLASS = {neutre:'', aime:'taste-aime', pas_aime:'taste-pas_aime'};
 
 const TASTE_OPTIONS = [
-  {gout:'aime', emoji:'❤️', label:"J'adore", desc:"Intégré prioritairement aux suggestions tant que c'est de saison"},
-  {gout:'pas_aime', emoji:'👎', label:"Je n'aime pas", desc:"Peut-être qu'en l'associant ou en le cuisinant différemment…"},
-  {gout:'neutre', emoji:'♡', label:"Neutre (par défaut)", desc:"Affiché normalement selon la saison"}
+  {gout:'aime', label:"J'adore", desc:"Intégré prioritairement aux suggestions tant que c'est de saison"},
+  {gout:'pas_aime', label:"Je n'aime pas", desc:"Peut-être qu'en l'associant ou en le cuisinant différemment…"}
 ];
 
 /* ============ ÉCRAN LÉGUMES ============ */
@@ -1444,13 +1455,15 @@ function openTasteSheet(id){
   document.getElementById('taste-veg-name').textContent = veg.nom;
   document.getElementById('taste-options').innerHTML = TASTE_OPTIONS.map(opt => `
     <button class="taste-option ${opt.gout===current?'current':''}" data-gout="${opt.gout}">
-      <span class="emoji">${opt.emoji}</span>
+      <span class="taste-icon taste-icon-${opt.gout}">${GOUT_ICON[opt.gout]}</span>
       <span>${opt.label}<span class="desc">${opt.desc}</span></span>
     </button>
   `).join('');
   document.querySelectorAll('.taste-option').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      setGout(sheetOpenId, btn.dataset.gout);
+      const clicked = btn.dataset.gout;
+      const newGout = (clicked === getGout(sheetOpenId)) ? 'neutre' : clicked;
+      setGout(sheetOpenId, newGout);
       closeTasteSheet();
       selected.delete(sheetOpenId);
       renderLegumes();
